@@ -11,6 +11,11 @@ public class PlayerController : MonoBehaviour
     public Text countText;
     public Text winText;
     public Text lifeText;
+
+    public AudioClip musicClipOne;
+public AudioClip musicClipTwo;
+public AudioSource musicSource;
+
      private Rigidbody2D rb2d;
      private int count;
      private int life;
@@ -27,9 +32,36 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+ if (Input.GetKeyDown(KeyCode.Space))
+    {
+        musicSource.clip = musicClipOne;
+        musicSource.Play();
+    }
+    if (Input.GetKeyUp(KeyCode.Space))
+    {
+        musicSource.Stop();
+    }
+    if (Input.GetKeyDown(KeyCode.P))
+    {
+        musicSource.clip = musicClipTwo;
+        musicSource.Play();
+    }
+    if (Input.GetKeyUp(KeyCode.P))
+    {
+        musicSource.Stop();
+    }
+    if (Input.GetKeyDown(KeyCode.L))
+    {
+        musicSource.loop = true;
+    }
+    if (Input.GetKeyUp(KeyCode.L))
+    {
+        musicSource.loop = false;
+    }
         if (Input.GetKey("escape"))
+{
      Application.Quit();
+}    
     }
     void FixedUpdate ()
     {
@@ -39,6 +71,12 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other){
+
+        if (count == 3){
+            transform.position = new Vector2(20.0f, transform.position.y);
+            life = 3;
+        }
+        
         if (other.gameObject.CompareTag ("PickUp"))
         {
             other.gameObject.SetActive (false);
@@ -48,7 +86,6 @@ public class PlayerController : MonoBehaviour
         else if (other.gameObject.CompareTag("Enemy"))
         {
             other.gameObject.SetActive (false);
-            count = count +1;
             life = life - 1;
             SetAllText();
         }
@@ -58,7 +95,7 @@ public class PlayerController : MonoBehaviour
     {
         countText.text = "Score: " + count.ToString();
         lifeText.text = "Lives: " + life.ToString();
-        if (count >= 4){
+        if (count >= 8){
             winText.text = "You win!";
         }
         if (life == 0){

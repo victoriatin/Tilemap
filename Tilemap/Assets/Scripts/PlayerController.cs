@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public Text lifeText;
 
     public AudioClip musicClipOne;
-public AudioClip musicClipTwo;
+
 public AudioSource musicSource;
 
 private bool facingRight = true;
@@ -64,12 +64,7 @@ anim.SetInteger("State", 1);
     {
 anim.SetInteger("State", 0);
     } 
-    
-//handling the jumping state
-if (Input.GetKeyDown (KeyCode.UpArrow))
-{
-    anim.SetInteger("State", 2);
-}
+
     if (facingRight == false && moveHorizontal > 0)
 {
 Flip();
@@ -123,7 +118,6 @@ transform.localScale = Scaler;
 
     void OnCollisionStay2D(Collision2D collision){
         if(collision.collider.tag == "Ground") {
-      
             if(Input.GetKey(KeyCode.UpArrow)) {
                 rb2d.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
                 

@@ -5524,7 +5524,6 @@ MonoBehaviour:
   winText: {fileID: 1318468482}
   lifeText: {fileID: 275818820}
   musicClipOne: {fileID: 8300000, guid: fb3d8e4a843f86740a94c2e0e628f3dd, type: 3}
-  musicClipTwo: {fileID: 8300000, guid: 82fe6876a80d47b4fae9a9efe2c0dc82, type: 3}
   musicSource: {fileID: 1558815456}
 --- !u!82 &1558815455
 AudioSource:
@@ -7027,9 +7026,8 @@ MonoBehaviour:
   countText: {fileID: 308490056}
   winText: {fileID: 1318468482}
   lifeText: {fileID: 275818820}
-  musicClipOne: {fileID: 0}
-  musicClipTwo: {fileID: 0}
-  musicSource: {fileID: 0}
+  musicClipOne: {fileID: 8300000, guid: fb3d8e4a843f86740a94c2e0e628f3dd, type: 3}
+  musicSource: {fileID: 1859671758}
 --- !u!50 &1859671756
 Rigidbody2D:
   serializedVersion: 4
@@ -7091,7 +7089,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

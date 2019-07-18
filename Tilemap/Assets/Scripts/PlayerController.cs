@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-   
+   Animator anim;
     public float speed;
     public float jumpForce;
     public Text countText;
@@ -16,12 +16,14 @@ public class PlayerController : MonoBehaviour
 public AudioClip musicClipTwo;
 public AudioSource musicSource;
 
+private bool facingRight = true;
      private Rigidbody2D rb2d;
      private int count;
      private int life;
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator> ();
         rb2d = GetComponent<Rigidbody2D>();
         count = 0;
         life = 3;
@@ -32,32 +34,7 @@ public AudioSource musicSource;
     // Update is called once per frame
     void Update()
     {
- if (Input.GetKeyDown(KeyCode.Space))
-    {
-        musicSource.clip = musicClipOne;
-        musicSource.Play();
-    }
-    if (Input.GetKeyUp(KeyCode.Space))
-    {
-        musicSource.Stop();
-    }
-    if (Input.GetKeyDown(KeyCode.P))
-    {
-        musicSource.clip = musicClipTwo;
-        musicSource.Play();
-    }
-    if (Input.GetKeyUp(KeyCode.P))
-    {
-        musicSource.Stop();
-    }
-    if (Input.GetKeyDown(KeyCode.L))
-    {
-        musicSource.loop = true;
-    }
-    if (Input.GetKeyUp(KeyCode.L))
-    {
-        musicSource.loop = false;
-    }
+ 
         if (Input.GetKey("escape"))
 {
      Application.Quit();
@@ -68,7 +45,48 @@ public AudioSource musicSource;
         float moveHorizontal = Input.GetAxis("Horizontal");
         Vector2 movement = new Vector2(moveHorizontal, 0);
         rb2d.AddForce(movement * speed);
+
+        //handling the idle - running - idle state change
+     if (Input.GetKeyDown (KeyCode.LeftArrow))
+{
+anim.SetInteger("State", 1);
+}   
+    if (Input.GetKeyUp (KeyCode.LeftArrow))
+    {
+anim.SetInteger("State", 0);
     }
+
+    if (Input.GetKeyDown (KeyCode.RightArrow))
+{
+anim.SetInteger("State", 1);
+}   
+    if (Input.GetKeyUp (KeyCode.RightArrow))
+    {
+anim.SetInteger("State", 0);
+    } 
+    
+//handling the jumping state
+if (Input.GetKeyDown (KeyCode.UpArrow))
+{
+    anim.SetInteger("State", 2);
+}
+    if (facingRight == false && moveHorizontal > 0)
+{
+Flip();
+}
+else if (facingRight == true && moveHorizontal < 0)
+{
+Flip();
+}
+    }
+
+     void Flip()
+{
+facingRight = !facingRight;
+Vector2 Scaler = transform.localScale;
+Scaler.x = Scaler.x * -1;
+transform.localScale = Scaler;
+}
 
     void OnTriggerEnter2D(Collider2D other){
 
@@ -102,10 +120,14 @@ public AudioSource musicSource;
             winText.text = "You lost!";
         }
     }
+
     void OnCollisionStay2D(Collision2D collision){
         if(collision.collider.tag == "Ground") {
+      
             if(Input.GetKey(KeyCode.UpArrow)) {
                 rb2d.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                
+                
             }
         }
     }

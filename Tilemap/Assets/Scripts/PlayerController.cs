@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public Text lifeText;
 
     public AudioClip musicClipOne;
-
+public AudioClip musicClipTwo;
 public AudioSource musicSource;
 
 private bool facingRight = true;
@@ -110,6 +110,8 @@ transform.localScale = Scaler;
         lifeText.text = "Lives: " + life.ToString();
         if (count >= 8){
             winText.text = "You win!";
+             musicSource.clip = musicClipTwo;
+        musicSource.Play();
         }
         if (life == 0){
             winText.text = "You lost!";
